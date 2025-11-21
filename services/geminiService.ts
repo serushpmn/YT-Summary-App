@@ -25,6 +25,7 @@ export const generateSummary = async (request: GenerationRequest): Promise<strin
        - Use Bullet points or Numbered lists where appropriate to break down information.
        - Use Headings (## or ###) to structure the summary into sections (e.g., Introduction, Key Points, Conclusion).
        - Use > Blockquotes for important takeaways.
+    6. Output Requirement: **STRICTLY** return ONLY the generated summary. Do NOT include any conversational filler, introductory phrases (e.g., "Here is the summary", "Sure", "Here is the text"), or concluding remarks. Start directly with the Heading or content.
 
     Input Text:
     """

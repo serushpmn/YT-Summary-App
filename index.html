@@ -28,6 +28,22 @@
         },
       }
     </script>
+    <style>
+      @media print {
+        @page {
+          size: A4;
+          margin: 20mm;
+        }
+        body {
+          background: white !important;
+          color: black !important;
+        }
+        /* Hide scrollbars in print */
+        ::-webkit-scrollbar {
+            display: none;
+        }
+      }
+    </style>
   <script type="importmap">
 {
   "imports": {

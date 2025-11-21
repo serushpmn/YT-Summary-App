@@ -12,7 +12,8 @@ import {
   RotateCcw,
   AlertCircle,
   Moon,
-  Sun
+  Sun,
+  Printer
 } from 'lucide-react';
 
 const App: React.FC = () => {
@@ -112,6 +113,10 @@ const App: React.FC = () => {
     }
   };
 
+  const handlePrint = () => {
+    window.print();
+  };
+
   const getLanguageLabel = (lang: Language) => {
     const baseLabel = lang === Language.PERSIAN ? 'فارسی' : lang === Language.ENGLISH ? 'English' : 'Deutsch';
     if (detectedLanguage === lang) {
@@ -121,10 +126,10 @@ const App: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-slate-50 dark:bg-slate-900 py-8 px-4 md:px-8 transition-colors duration-300" dir="rtl">
-      <div className="max-w-4xl mx-auto">
-        {/* Header */}
-        <header className="mb-8 relative">
+    <div className="min-h-screen bg-slate-50 dark:bg-slate-900 py-8 px-4 md:px-8 transition-colors duration-300 print:p-0 print:bg-white" dir="rtl">
+      <div className="max-w-4xl mx-auto print:max-w-none print:mx-0">
+        {/* Header - Hidden on Print */}
+        <header className="mb-8 relative print:hidden">
           <button 
             onClick={toggleDarkMode}
             className="absolute left-0 top-2 p-2 rounded-full bg-white dark:bg-slate-800 text-slate-500 dark:text-slate-400 shadow-sm border border-slate-200 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-750 transition-all"
@@ -146,9 +151,9 @@ const App: React.FC = () => {
           </div>
         </header>
 
-        <main className="space-y-6">
-          {/* Input Section */}
-          <div className="bg-white dark:bg-slate-800 rounded-2xl shadow-sm border border-slate-100 dark:border-slate-700 overflow-hidden transition-colors">
+        <main className="space-y-6 print:space-y-0">
+          {/* Input Section - Hidden on Print */}
+          <div className="bg-white dark:bg-slate-800 rounded-2xl shadow-sm border border-slate-100 dark:border-slate-700 overflow-hidden transition-colors print:hidden">
             <div className="p-4 border-b border-slate-100 dark:border-slate-700 bg-slate-50/50 dark:bg-slate-800/50 flex items-center gap-2">
               <FileText className="w-5 h-5 text-slate-400" />
               <h2 className="font-semibold text-slate-700 dark:text-slate-200">متن ورودی</h2>
@@ -162,8 +167,8 @@ const App: React.FC = () => {
             />
           </div>
 
-          {/* Configuration Section */}
-          <div className="bg-white dark:bg-slate-800 rounded-2xl shadow-sm border border-slate-100 dark:border-slate-700 p-6 transition-colors">
+          {/* Configuration Section - Hidden on Print */}
+          <div className="bg-white dark:bg-slate-800 rounded-2xl shadow-sm border border-slate-100 dark:border-slate-700 p-6 transition-colors print:hidden">
             <div className="flex items-center gap-2 mb-6">
               <BookOpen className="w-5 h-5 text-primary-500" />
               <h2 className="font-bold text-lg text-slate-800 dark:text-slate-100">تنظیمات خروجی</h2>
@@ -239,13 +244,22 @@ const App: React.FC = () => {
 
           {/* Result Section */}
           {output && (
-            <div className="bg-white dark:bg-slate-800 rounded-2xl shadow-lg border border-primary-100 dark:border-primary-900/50 overflow-hidden animate-fade-in-up transition-colors">
-               <div className="p-4 bg-primary-50 dark:bg-primary-900/20 border-b border-primary-100 dark:border-primary-900/30 flex items-center justify-between">
+            <div className="bg-white dark:bg-slate-800 rounded-2xl shadow-lg border border-primary-100 dark:border-primary-900/50 overflow-hidden animate-fade-in-up transition-colors print:shadow-none print:border-0 print:rounded-none print:dark:bg-white">
+               {/* Toolbar - Hidden on Print */}
+               <div className="p-4 bg-primary-50 dark:bg-primary-900/20 border-b border-primary-100 dark:border-primary-900/30 flex items-center justify-between print:hidden">
                   <div className="flex items-center gap-2 text-primary-800 dark:text-primary-300">
                     <Check className="w-5 h-5" />
                     <h2 className="font-bold">متن تولید شده</h2>
                   </div>
                   <div className="flex gap-2">
+                     <button 
+                      onClick={handlePrint}
+                      className="flex items-center gap-2 px-3 py-1.5 rounded-lg text-sm font-medium bg-white text-slate-700 hover:bg-slate-100 dark:bg-slate-700 dark:text-slate-200 dark:hover:bg-slate-600 transition-colors border border-slate-200 dark:border-slate-600"
+                      title="چاپ / PDF"
+                     >
+                       <Printer className="w-4 h-4" />
+                       <span className="hidden sm:inline">چاپ PDF</span>
+                     </button>
                      <button 
                       onClick={() => setOutput('')}
                       className="p-2 text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 hover:bg-white dark:hover:bg-slate-700 rounded-lg transition-colors"
@@ -268,9 +282,11 @@ const App: React.FC = () => {
                      </button>
                   </div>
                </div>
-               <div className="p-6 bg-white dark:bg-slate-800 min-h-[200px]">
+               
+               {/* Content Area */}
+               <div className="p-6 bg-white dark:bg-slate-800 min-h-[200px] print:p-0 print:bg-white print:dark:bg-white print:text-black">
                  <article 
-                  className="prose prose-slate dark:prose-invert max-w-none leading-8"
+                  className="prose prose-slate dark:prose-invert max-w-none leading-8 print:prose-headings:text-black print:prose-p:text-black print:text-black"
                   dir={selectedLanguage === Language.PERSIAN ? 'rtl' : 'ltr'}
                  >
                    <ReactMarkdown>{output}</ReactMarkdown>
