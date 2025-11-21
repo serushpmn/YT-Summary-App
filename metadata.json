@@ -1,0 +1,5 @@
+{
+  "name": "YouTube Transcript Summarizer",
+  "description": "An intelligent tool to summarize and rewrite YouTube transcripts in English, Persian, or German at specific proficiency levels (B1, B2, C1) using Gemini AI.",
+  "requestFramePermissions": []
+}
